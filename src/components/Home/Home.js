@@ -3,9 +3,11 @@ import styles from './Home.module.css';
 import Link from 'next/link';
 import { useState } from 'react';
 
-export default function Home() {
+export default function Home({pie}) {
+    console.log(pie)
     const pizzas = [
         {
+            id: '1',
             name: 'Cheese Pizza',
             slug: 'cheese-pizza',
             toppings: ['mozzarella cheese'],
@@ -13,6 +15,7 @@ export default function Home() {
             price: 9.99, 
         },
         {
+            id: '2',
             name: 'Meat Feast',
             slug: 'meat-feast',
             toppings: ['ham', 'bacon', 'pepperoni', 'sausage'],
@@ -20,6 +23,7 @@ export default function Home() {
             price: 15.99, 
         },
         {
+            id: '3',
             name: 'Supreme',
             slug: 'supreme',
             toppings: ['olives', 'pineapple', 'ham', 'pepperoni'],
@@ -27,6 +31,7 @@ export default function Home() {
             price: 12.99, 
         },
         {
+            id: '4',
             name: 'Pepperoni Pizza',
             slug: 'pepperoni-pizza',
             toppings: ['pepperoni'],
@@ -34,6 +39,7 @@ export default function Home() {
             price: 14.99, 
         },
         {
+            id: '5',
             name: 'Smoked Sausage Pizza',
             slug: 'smoked-sausage-pizza',
             toppings: ['sausage', 'tomato', 'olive'],
@@ -41,6 +47,7 @@ export default function Home() {
             price: 9.99, 
         },
         {
+            id: '6',
             name: 'Egg & Sausage Pizza',
             slug: 'egg-and-sausage-pizza',
             toppings: ['sausage', 'egg'],
@@ -76,7 +83,7 @@ export default function Home() {
                 (
                     filteredPizzas.map(pizza => {
                         return(
-                        <div className={styles.pizzaItem}>
+                        <div className={styles.pizzaItem} key={pizza.id}>
                             <Link href={`/${pizza.slug}`}><a className={styles.pizzaImageBox}>
                             <img src={pizza.image} alt={pizza.name} className={styles.pizzaImage} />
                             </a></Link>
@@ -92,4 +99,16 @@ export default function Home() {
             </div>
         </div>
     )
+}
+
+export const getStaticProps = async () =>{
+
+    const res = await fetch('https://shanewkeenan.herokuapp.com/api/languages/');
+    const pie = await res.json();
+
+    return {
+        props: {
+            pie,
+        },
+    }
 }
