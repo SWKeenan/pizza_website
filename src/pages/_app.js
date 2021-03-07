@@ -2,7 +2,9 @@ import '../styles/globals.css';
 import Link from 'next/link';
 import styles from '../styles/MyApp.module.css';
 
+
 function MyApp({ Component, pageProps }) {
+
   return(
     <>
       <nav className={styles.navbar}>

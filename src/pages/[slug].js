@@ -4,7 +4,6 @@ import Head from 'next/head';
 import Link from 'next/link';
 
 export default function slug({pizza, otherPizzas}) {
-    console.log(otherPizzas)
     return (
         <div className={styles.container}>
             <Head>
@@ -23,8 +22,8 @@ export default function slug({pizza, otherPizzas}) {
                 <div className={styles.otherPizzasWrapper}>
                     {otherPizzas.map(otherpizza => {
                         return(
-                            <div className={styles.otherPizzas}>
-                                <Link href={otherpizza.slug}><a>
+                            <div className={styles.otherPizzas} key={otherpizza.id}>
+                                <Link href={"/" + otherpizza.slug}><a>
                                 <img src={otherpizza.image} alt={otherpizza.name} />
                                 <p>{otherpizza.name}</p>
                                 </a></Link>
@@ -38,56 +37,58 @@ export default function slug({pizza, otherPizzas}) {
 }
 
 export const getStaticPaths = async () =>{
-    const pizzas = [
-        {
-            name: 'Cheese Pizza',
-            slug: 'cheese-pizza',
-            description: 'A delicious cheese pizza made with our finest tomato sauce.',
-            toppings: ['mozzarella cheese'],
-            image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=625&q=80',
-            price: 9.99, 
-        },
-        {
-            name: 'Meat Feast',
-            slug: 'meat-feast',
-            description: 'A wide selection of succulent meats for only the mightiest of meat lovers.',
-            toppings: ['ham', 'bacon', 'pepperoni', 'sausage'],
-            image: 'https://images.unsplash.com/photo-1590083745251-4fdb0b285c6a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=478&q=80',
-            price: 15.99, 
-        },
-        {
-            name: 'Supreme',
-            slug: 'supreme',
-            description: 'A succulent supreme for only the finest of pizza fans.',
-            toppings: ['olives', 'pineapple', 'ham', 'pepperoni'],
-            image: 'https://images.unsplash.com/photo-1593246049226-ded77bf90326?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=375&q=80',
-            price: 12.99, 
-        },
-        {
-            name: 'Pepperoni Pizza',
-            slug: 'pepperoni-pizza',
-            description: 'The absolute classic. The king of pizzas. Bow to his delicious pepperoni highness.',
-            toppings: ['pepperoni'],
-            image: 'https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
-            price: 14.99, 
-        },
-        {
-            name: 'Smoked Sausage Pizza',
-            slug: 'smoked-sausage-pizza',
-            description: 'The description would go here. It is a pizza, what more do you want?',
-            toppings: ['sausage', 'tomato', 'olive'],
-            image: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-            price: 9.99, 
-        },
-        {
-            name: 'Egg & Sausage Pizza',
-            slug: 'egg-and-sausage-pizza',
-            description: 'The description would go here. It is a pizza, what more do you want?',
-            toppings: ['sausage', 'egg'],
-            image: 'https://images.unsplash.com/photo-1605591099585-087b3d54cd45?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=742&q=80',
-            price: 13.99, 
-        },
-    ]
+    // const pizzas = [
+    //     {
+    //         name: 'Cheese Pizza',
+    //         slug: 'cheese-pizza',
+    //         description: 'A delicious cheese pizza made with our finest tomato sauce.',
+    //         toppings: ['mozzarella cheese'],
+    //         image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=625&q=80',
+    //         price: 9.99, 
+    //     },
+    //     {
+    //         name: 'Meat Feast',
+    //         slug: 'meat-feast',
+    //         description: 'A wide selection of succulent meats for only the mightiest of meat lovers.',
+    //         toppings: ['ham', 'bacon', 'pepperoni', 'sausage'],
+    //         image: 'https://images.unsplash.com/photo-1590083745251-4fdb0b285c6a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=478&q=80',
+    //         price: 15.99, 
+    //     },
+    //     {
+    //         name: 'Supreme',
+    //         slug: 'supreme',
+    //         description: 'A succulent supreme for only the finest of pizza fans.',
+    //         toppings: ['olives', 'pineapple', 'ham', 'pepperoni'],
+    //         image: 'https://images.unsplash.com/photo-1593246049226-ded77bf90326?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=375&q=80',
+    //         price: 12.99, 
+    //     },
+    //     {
+    //         name: 'Pepperoni Pizza',
+    //         slug: 'pepperoni-pizza',
+    //         description: 'The absolute classic. The king of pizzas. Bow to his delicious pepperoni highness.',
+    //         toppings: ['pepperoni'],
+    //         image: 'https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+    //         price: 14.99, 
+    //     },
+    //     {
+    //         name: 'Smoked Sausage Pizza',
+    //         slug: 'smoked-sausage-pizza',
+    //         description: 'Somebody's smokin! This succulent pizza is filled with sausage goodness',
+    //         toppings: ['sausage', 'tomato', 'olive'],
+    //         image: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    //         price: 9.99, 
+    //     },
+    //     {
+    //         name: 'Egg & Sausage Pizza',
+    //         slug: 'egg-and-sausage-pizza',
+    //         description: 'The description would go here. It is a pizza, what more do you want?',
+    //         toppings: ['sausage', 'egg'],
+    //         image: 'https://images.unsplash.com/photo-1605591099585-087b3d54cd45?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=742&q=80',
+    //         price: 13.99, 
+    //     },
+    // ]
+    const res = await fetch('http://localhost:8000/pizza/');
+    const pizzas = await res.json();
     const paths = pizzas.map(pizza => ({
         params: {slug: `${pizza.slug}`}
     }));
@@ -98,56 +99,58 @@ export const getStaticPaths = async () =>{
 }
 
 export const getStaticProps = async ({params}) =>{
-    const pizzas = [
-        {
-            name: 'Cheese Pizza',
-            slug: 'cheese-pizza',
-            description: 'A delicious cheese pizza made with our finest tomato sauce.',
-            toppings: ['mozzarella cheese'],
-            image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=625&q=80',
-            price: 9.99, 
-        },
-        {
-            name: 'Meat Feast',
-            slug: 'meat-feast',
-            description: 'A wide selection of succulent meats for only the mightiest of meat lovers.',
-            toppings: ['ham', 'bacon', 'pepperoni', 'sausage'],
-            image: 'https://images.unsplash.com/photo-1590083745251-4fdb0b285c6a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=478&q=80',
-            price: 15.99, 
-        },
-        {
-            name: 'Supreme',
-            slug: 'supreme',
-            description: 'A succulent supreme for only the finest of pizza fans.',
-            toppings: ['olives', 'pineapple', 'ham', 'pepperoni'],
-            image: 'https://images.unsplash.com/photo-1593246049226-ded77bf90326?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=375&q=80',
-            price: 12.99, 
-        },
-        {
-            name: 'Pepperoni Pizza',
-            slug: 'pepperoni-pizza',
-            description: 'The absolute classic. The king of pizzas. Bow to his delicious pepperoni highness.',
-            toppings: ['pepperoni'],
-            image: 'https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
-            price: 14.99, 
-        },
-        {
-            name: 'Smoked Sausage Pizza',
-            slug: 'smoked-sausage-pizza',
-            description: 'The description would go here. It is a pizza, what more do you want?',
-            toppings: ['sausage', 'tomato', 'olive'],
-            image: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
-            price: 9.99, 
-        },
-        {
-            name: 'Egg & Sausage Pizza',
-            slug: 'egg-and-sausage-pizza',
-            description: 'The description would go here. It is a pizza, what more do you want?',
-            toppings: ['sausage', 'egg'],
-            image: 'https://images.unsplash.com/photo-1605591099585-087b3d54cd45?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=742&q=80',
-            price: 13.99, 
-        },
-    ]
+    // const pizzas = [
+    //     {
+    //         name: 'Cheese Pizza',
+    //         slug: 'cheese-pizza',
+    //         description: 'A delicious cheese pizza made with our finest tomato sauce.',
+    //         toppings: ['mozzarella cheese'],
+    //         image: 'https://images.unsplash.com/photo-1571407970349-bc81e7e96d47?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=625&q=80',
+    //         price: 9.99, 
+    //     },
+    //     {
+    //         name: 'Meat Feast',
+    //         slug: 'meat-feast',
+    //         description: 'A wide selection of succulent meats for only the mightiest of meat lovers.',
+    //         toppings: ['ham', 'bacon', 'pepperoni', 'sausage'],
+    //         image: 'https://images.unsplash.com/photo-1590083745251-4fdb0b285c6a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=478&q=80',
+    //         price: 15.99, 
+    //     },
+    //     {
+    //         name: 'Supreme',
+    //         slug: 'supreme',
+    //         description: 'A succulent supreme for only the finest of pizza fans.',
+    //         toppings: ['olives', 'pineapple', 'ham', 'pepperoni'],
+    //         image: 'https://images.unsplash.com/photo-1593246049226-ded77bf90326?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=375&q=80',
+    //         price: 12.99, 
+    //     },
+    //     {
+    //         name: 'Pepperoni Pizza',
+    //         slug: 'pepperoni-pizza',
+    //         description: 'The absolute classic. The king of pizzas. Bow to his delicious pepperoni highness.',
+    //         toppings: ['pepperoni'],
+    //         image: 'https://images.unsplash.com/photo-1605478371310-a9f1e96b4ff4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80',
+    //         price: 14.99, 
+    //     },
+    //     {
+    //         name: 'Smoked Sausage Pizza',
+    //         slug: 'smoked-sausage-pizza',
+    //         description: 'The description would go here. It is a pizza, what more do you want?',
+    //         toppings: ['sausage', 'tomato', 'olive'],
+    //         image: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
+    //         price: 9.99, 
+    //     },
+    //     {
+    //         name: 'Egg & Sausage Pizza',
+    //         slug: 'egg-and-sausage-pizza',
+    //         description: 'The description would go here. It is a pizza, what more do you want?',
+    //         toppings: ['sausage', 'egg'],
+    //         image: 'https://images.unsplash.com/photo-1605591099585-087b3d54cd45?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=742&q=80',
+    //         price: 13.99, 
+    //     },
+    // ]
+    const res = await fetch('http://localhost:8000/pizza/');
+    const pizzas = await res.json();
     const pizza = pizzas.filter(pizza => pizza.slug.includes(params.slug));
     const otherPizzas = pizzas.filter(pizza => pizza.slug !== params.slug );
 
