@@ -73,7 +73,7 @@ export const getStaticPaths = async () =>{
     //     {
     //         name: 'Smoked Sausage Pizza',
     //         slug: 'smoked-sausage-pizza',
-    //         description: 'Somebody's smokin! This succulent pizza is filled with sausage goodness',
+    //         description: 'Somebody's smokin! This succulent pizza is filled with sausage goodness.',
     //         toppings: ['sausage', 'tomato', 'olive'],
     //         image: 'https://images.unsplash.com/photo-1585238342024-78d387f4a707?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80',
     //         price: 9.99, 
@@ -81,13 +81,14 @@ export const getStaticPaths = async () =>{
     //     {
     //         name: 'Egg & Sausage Pizza',
     //         slug: 'egg-and-sausage-pizza',
-    //         description: 'The description would go here. It is a pizza, what more do you want?',
+    //         description: 'For the absolute mad lad who loves a morning breakfast on a pizza!',
     //         toppings: ['sausage', 'egg'],
     //         image: 'https://images.unsplash.com/photo-1605591099585-087b3d54cd45?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=742&q=80',
     //         price: 13.99, 
     //     },
     // ]
-    const res = await fetch('http://localhost:8000/pizza/');
+    // const res = await fetch('http://localhost:8000/pizza/');
+    const res = await fetch('https://pizza-website-back.herokuapp.com/pizza/');
     const pizzas = await res.json();
     const paths = pizzas.map(pizza => ({
         params: {slug: `${pizza.slug}`}
@@ -149,7 +150,8 @@ export const getStaticProps = async ({params}) =>{
     //         price: 13.99, 
     //     },
     // ]
-    const res = await fetch('http://localhost:8000/pizza/');
+    // const res = await fetch('http://localhost:8000/pizza/');
+    const res = await fetch('https://pizza-website-back.herokuapp.com/pizza/');
     const pizzas = await res.json();
     const pizza = pizzas.filter(pizza => pizza.slug.includes(params.slug));
     const otherPizzas = pizzas.filter(pizza => pizza.slug !== params.slug );

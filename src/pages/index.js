@@ -12,7 +12,8 @@ export default function home({pizzas}) {
 
 export const getStaticProps = async () =>{
 
-  const res = await fetch('http://localhost:8000/pizza/');
+  const res = await fetch('https://pizza-website-back.herokuapp.com/pizza/');
+  // const res = await fetch('http://localhost:8000/pizza/');
   const pizzas = await res.json();
 
   return {
